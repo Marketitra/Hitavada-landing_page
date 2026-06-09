@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Momentum Awards 2026 — The Hitavada</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IM+Fell+English:ital@0;1&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+
+    /* ─── SCROLL ANIMATION BASE ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s cubic-bezier(.22,.68,0,1.2), transform 0.7s cubic-bezier(.22,.68,0,1.2);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+
+    /* word-by-word split animation */
+    .word-reveal .word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .word-reveal.visible .word { opacity: 1; transform: translateY(0); }
+
+    /* stagger delays for children */
+    .stagger > * { transition-delay: calc(var(--i, 0) * 80ms); }
+
+    /* ─── BANNER ─── */
+    .banner {
+      background: #fff;
+      padding: 36px 40px 28px;
+      border-bottom: 3px solid var(--black);
+      text-align: center;
+      position: relative;
+    }
+    .banner::before, .banner::after {
+      content: '';
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      width: 20px; height: 20px;
+    }
+    .banner::before { left: 28px; }
+    .banner::after  { right: 28px; }
+
+    /* SVG star ornaments */
+    .banner-ornament {
+      display: block;
+      margin: 0 auto 10px;
+    }
+
+    .banner h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 5.5vw, 68px);
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--black);
+      letter-spacing: -0.5px;
+    }
+    .banner h1 em { font-style: italic; color: var(--red); }
+    .banner-deck {
+      font-family: 'IM Fell English', serif;
+      font-size: clamp(14px, 1.8vw, 18px);
+      color: var(--muted);
+      font-style: italic;
+      margin-top: 12px;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    /* ─── BYLINE BAR ─── */
+    .byline-bar {
+      background: var(--black);
+      color: #fff;
+      padding: 8px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10.5px;
+      letter-spacing: 0.6px;
+    }
+    .byline-bar .by { opacity: 0.6; }
+    .byline-bar .deadline {
+      background: var(--red);
+      padding: 3px 10px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* ─── PAPER BODY ─── */
+    .paper-body {
+      background: #fff;
+      max-width: 1100px;
+      margin: 0 auto;
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+    }
+
+    /* ─── 3-COL LEAD ─── */
+    .lead-story {
+      display: grid;
+      grid-template-columns: 1fr 2px 1fr 2px 1fr;
+      padding: 32px 32px 0;
+    }
+    .col-rule { background: var(--border); }
+    .lead-col { padding: 0 24px; }
+    .lead-col:first-child { padding-left: 0; }
+    .lead-col:last-child  { padding-right: 0; }
+
+    .drop-cap::first-letter {
+      font-family: 'Playfair Display', serif;
+      font-size: 72px;
+      font-weight: 900;
+      line-height: 0.8;
+      float: left;
+      margin: 6px 8px 0 0;
+      color: var(--black);
+    }
+    .lead-col p {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--ink);
+      margin-bottom: 14px;
+      text-align: justify;
+      hyphens: auto;
+    }
+    .lead-col p strong { font-weight: 600; }
+
+    .pull-quote {
+      border-top: 3px solid var(--black);
+      border-bottom: 3px solid var(--black);
+      padding: 14px 0;
+      margin: 20px 0;
+      text-align: center;
+    }
+    .pull-quote p {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px !important;
+      font-style: italic;
+      font-weight: 700;
+      color: var(--black) !important;
+      line-height: 1.4 !important;
+      margin: 0 !important;
+    }
+
+    .col-subhead {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--black);
+      margin: 18px 0 8px;
+      line-height: 1.2;
+    }
+
+    /* ─── WIN BOX ─── */
+    .win-box {
+      border: 2px solid var(--black);
+      margin: 24px 0;
+      background: #f5f5f5;
+    }
+    .win-box-head {
+      background: var(--black);
+      color: #fff;
+      padding: 6px 14px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .win-box-body { padding: 12px 14px; }
+    .win-box-body ul { list-style: none; font-size: 12.5px; line-height: 1.8; color: var(--ink); }
+    .win-box-body ul li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .win-box-body ul li svg { flex-shrink: 0; }
+
+    /* ─── HOW IT WORKS ─── */
+    .how-it-works {
+      padding: 28px 32px 32px;
+      border-top: 2px solid var(--black);
+    }
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      margin-top: 20px;
+    }
+    .how-step {
+      padding: 0 20px 0 0;
+      position: relative;
+    }
+    .how-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 0; height: 100%;
+      width: 1px;
+      background: var(--border);
+    }
+    .how-step:not(:first-child) { padding-left: 20px; }
+    .step-n {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 900;
+      color: var(--red);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .how-step h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+    .how-step p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+    /* ─── CATEGORIES ─── */
+    .categories-section {
+      border-top: 2px solid var(--black);
+      padding: 28px 32px 32px;
+    }
+    .cat-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .cat-tag {
+      border: 1.5px solid var(--black);
+      padding: 7px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: var(--black);
+      background: #fff;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .cat-tag svg { flex-shrink: 0; }
+
+    /* ─── CTA STRIP ─── */
+    .cta-strip {
+      background: #fff;
+      padding: 48px 40px;
+      text-align: center;
+      border-top: 3px solid var(--black);
+      border-bottom: 3px solid var(--black);
+    }
+    .cta-strip .eyebrow {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .cta-strip h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(24px, 4vw, 42px);
+      font-weight: 900;
+      color: var(--black);
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+    .cta-strip h2 em { font-style: italic; color: var(--red); }
+    .cta-strip > p {
+      font-size: 14px;
+      color: var(--muted);
+      font-style: italic;
+      font-family: 'IM Fell English', serif;
+      margin-bottom: 28px;
+    }
+    .cta-deadline {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 6px 18px;
+      font-size: 11px;
+      letter-spacing: 1px;
+      margin-bottom: 24px;
+    }
+    .cta-deadline strong { color: var(--red); }
+
+    /* ─── CTA BUTTON ─── */
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--red);
+      color: #fff;
+      padding: 16px 40px;
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 700;
+      font-style: italic;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s, gap 0.2s;
+    }
+    .cta-btn:hover { background: var(--red-dark); transform: translateY(-2px); gap: 14px; }
+    .cta-btn svg { transition: transform 0.2s; }
+    .cta-btn:hover svg { transform: translateX(3px); }
+
+    .cta-note { margin-top: 14px; font-size: 11px; color: #aaa; letter-spacing: 0.3px; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 720px) {
+      .banner, .byline-bar, .how-it-works, .categories-section, .cta-strip { padding-left: 20px; padding-right: 20px; }
+      .lead-story { grid-template-columns: 1fr; padding: 24px 20px 0; }
+      .col-rule { display: none; }
+      .lead-col { padding: 0 0 20px; }
+      .how-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+      .how-step::after { display: none; }
+      .how-step { padding: 0 !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="masthead-top">
+      <span>NAGPUR'S NO. 1 ENGLISH DAILY</span>
+      <span class="special-initiative">★ Special Initiative</span>
+      <span>ESTABLISHED 1911 · VIDARBHA EDITION</span>
+    </div>
+    <div class="masthead-center">
+      <div class="masthead-name"><span>The</span> Hitavada</div>
+      <div class="masthead-tagline">The People's Paper</div>
+    </div>
+    <div class="masthead-bottom">
+      <span class="edition">Momentum Awards Special Edition</span>
+      <span>NAGPUR · 2026</span>
+      <span>NOMINATIONS OPEN</span>
+    </div>
+  </header>
+
+  <!-- BANNER HEADLINE -->
+  <div class="banner">
+    <!-- SVG ornament left -->
+    <svg style="position:absolute;left:24px;top:50%;transform:translateY(-50%)" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M11 0L12.8 8.2L21 11L12.8 13.8L11 22L9.2 13.8L1 11L9.2 8.2L11 0Z" fill="#C8102E"/>
+    </svg>
+    <!-- SVG ornament right -->
+    <svg style="position:absolute;right:24px;top:50%;transform:translateY(-50%)" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M11 0L12.8 8.2L21 11L12.8 13.8L11 22L9.2 13.8L1 11L9.2 8.2L11 0Z" fill="#C8102E"/>
+    </svg>
+
+    <div class="kicker reveal">Nagpur's Premier Business Recognition Programme</div>
+    <h1 class="word-reveal">
+      <span class="word">The</span> <span class="word" style="color:var(--red);font-style:italic">Momentum</span><br>
+      <span class="word">Awards</span> <span class="word">2026</span>
+    </h1>
+    <p class="banner-deck reveal">Recognising Nagpur's finest businesses, institutions &amp; leaders — those who define the city's progress, spirit, and ambition.</p>
+  </div>
+
+  <!-- BYLINE BAR -->
+  <div class="byline-bar">
+    <span class="by">A Hitavada Editorial Initiative · Nagpur Bureau</span>
+    <span class="deadline">Nominations Close: 30 June 2026</span>
+  </div>
+
+  <!-- PAPER BODY -->
+  <div class="paper-body">
+
+    <div class="lead-story">
+      <div class="lead-col reveal-left">
+        <p class="drop-cap">FOR over a century, <strong>The Hitavada</strong> has chronicled the story of Nagpur — its triumphs, its transformations, and the tireless individuals who shape its destiny. Today, we extend that tradition of recognition into a new arena: honouring the businesses and institutions that quietly power this city's momentum.</p>
+        <p>The <strong>Momentum Awards 2026</strong> is a special editorial initiative conceived to shine a well-deserved spotlight on Nagpur's most impactful enterprises — from coaching institutes that have shaped generations of students, to healthcare providers that have redefined care in Vidarbha.</p>
+        <p>Nominations are now open across <strong>eight categories</strong>, spanning education, healthcare, retail, real estate, automobile, and hospitality. Slots are deliberately limited to ensure each honouree receives the full weight of The Hitavada's editorial attention.</p>
+        <div class="win-box reveal">
+          <div class="win-box-head">What Winners Receive</div>
+          <div class="win-box-body">
+            <ul>
+              <li>
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5.5L4 7.5L8.5 2.5" stroke="#C8102E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Framed Certificate of Excellence
+              </li>
+              <li>
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5.5L4 7.5L8.5 2.5" stroke="#C8102E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                90-second brand feature reel
+              </li>
+              <li>
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5.5L4 7.5L8.5 2.5" stroke="#C8102E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                On-premises interview shoot
+              </li>
+              <li>
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5.5L4 7.5L8.5 2.5" stroke="#C8102E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Print editorial spotlight
+              </li>
+              <li>
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5.5L4 7.5L8.5 2.5" stroke="#C8102E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Digital feature on thehitavada.com
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-rule"></div>
+
+      <div class="lead-col reveal" style="transition-delay:0.12s">
+        <div class="pull-quote">
+          <p>"Reaching over two lakh readers across Vidarbha — your story, told by The Hitavada."</p>
+        </div>
+        <p>Each shortlisted nominee is personally visited by The Hitavada's production team, who craft a <strong>90-second brand feature reel</strong> — a cinematic snapshot of the business, its people, and its legacy. The final edit is handed directly to the honouree for use across social media and digital channels.</p>
+        <p>The editorial feature — both in print and online — reaches an audience of <strong>2 lakh+ readers</strong> across the Vidarbha region, offering unparalleled regional visibility for businesses that have earned their place in Nagpur's story.</p>
+        <p class="col-subhead">A Legacy of Trust</p>
+        <p>Since 1911, The Hitavada has been the newspaper of record for Central India. The Momentum Awards carry forward this legacy of journalistic integrity — every nominee is evaluated by our editorial panel on the basis of community impact, reputation, and reader trust.</p>
+      </div>
+
+      <div class="col-rule"></div>
+
+      <div class="lead-col reveal" style="transition-delay:0.24s">
+        <p class="col-subhead">Who Should Nominate?</p>
+        <p>Any business, institution, or professional practice operating in Nagpur is eligible. Whether you are a <strong>school that has shaped thousands of futures</strong>, a retail brand loved by the city, a healthcare clinic that has served its community for decades, or a real estate firm that has transformed Nagpur's skyline — the Momentum Awards are your platform.</p>
+        <p>Nominees need not be large corporations. The panel values <strong>depth of community impact</strong> as much as scale of operation. Family-run enterprises, single-location clinics, and neighbourhood coaching centres are as welcome as regional chains.</p>
+        <div class="pull-quote">
+          <p>"Limited slots per category — submit early to secure your place."</p>
+        </div>
+        <p>Nominations take under <strong>two minutes</strong> to submit. Our team reviews every entry within 48 hours and personally contacts each nominee to walk them through the programme details.</p>
+        <p>The felicitation ceremony will be held at a venue to be announced in Nagpur, with coverage published in The Hitavada print edition and on thehitavada.com.</p>
+      </div>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <div class="how-it-works">
+      <div class="section-divider reveal">
+        <div class="label">How It Works</div>
+        <div class="line"></div>
+      </div>
+      <div class="how-grid stagger">
+        <div class="how-step reveal" style="--i:0">
+          <div class="step-n">01</div>
+          <h4>Submit Your Nomination</h4>
+          <p>Fill the nomination form with your business details and category. Takes under two minutes.</p>
+        </div>
+        <div class="how-step reveal" style="--i:1">
+          <div class="step-n">02</div>
+          <h4>Evaluation &amp; Shortlisting</h4>
+          <p>Hitavada's editorial panel evaluates nominees on impact, reputation, and reader trust.</p>
+        </div>
+        <div class="how-step reveal" style="--i:2">
+          <div class="step-n">03</div>
+          <h4>Reel Shoot &amp; Interview</h4>
+          <p>Our team visits your premises for a 90-second brand feature. Final edit is yours to keep.</p>
+        </div>
+        <div class="how-step reveal" style="--i:3">
+          <div class="step-n">04</div>
+          <h4>Felicitation &amp; Coverage</h4>
+          <p>Certificate at the Awards event. Feature published in print and on thehitavada.com.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CATEGORIES -->
+    <div class="categories-section">
+      <div class="section-divider reveal">
+        <div class="label">Open Categories · 2026</div>
+        <div class="line"></div>
+      </div>
+      <div class="cat-row">
+        <!-- Institutes -->
+        <div class="cat-tag reveal" style="--i:0">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Institutes &amp; Colleges
+        </div>
+        <!-- Coaching -->
+        <div class="cat-tag reveal" style="--i:1">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          Coaching
+        </div>
+        <!-- Schools -->
+        <div class="cat-tag reveal" style="--i:2">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          Schools
+        </div>
+        <!-- Cafes -->
+        <div class="cat-tag reveal" style="--i:3">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          Cafes &amp; Restaurants
+        </div>
+        <!-- Automobile -->
+        <div class="cat-tag reveal" style="--i:4">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Automobile
+        </div>
+        <!-- Healthcare -->
+        <div class="cat-tag reveal" style="--i:5">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          Healthcare
+        </div>
+        <!-- Real Estate -->
+        <div class="cat-tag reveal" style="--i:6">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="6" x2="23" y2="6"/><line x1="1" y1="18" x2="23" y2="18"/><rect x="5" y="6" width="5" height="12"/><rect x="14" y="6" width="5" height="12"/></svg>
+          Real Estate
+        </div>
+        <!-- Retail -->
+        <div class="cat-tag reveal" style="--i:7">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          Retail
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CTA STRIP -->
+  <div class="cta-strip">
+    <div class="eyebrow reveal">The Hitavada · Momentum Awards 2026</div>
+    <h2 class="word-reveal">
+      <span class="word">Is</span> <span class="word">your</span> <span class="word">business</span><br>
+      <span class="word">Nagpur's</span> <span class="word"><em>finest?</em></span>
+    </h2>
+    <p class="reveal">Submit your nomination today — limited slots available per category.</p>
+    <div class="reveal">
+      <div class="cta-deadline">
+        <!-- Clock SVG -->
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C8102E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+        Nominations close <strong>30 June 2026</strong>
+      </div>
+    </div>
+    <br>
+    <a href="form.html" class="cta-btn reveal">
+      Submit Your Nomination
+      <!-- Arrow SVG -->
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+      </svg>
+    </a>
+    <div class="cta-note reveal">Takes 2 minutes · Our team responds within 48 hours</div>
+  </div>
+
+  <footer class="site-footer">
+    <strong>The Hitavada</strong> · Nagpur's No.1 English Daily · Est. 1911 · Momentum Awards 2026
+  </footer>
+
+  <script>
+    // ── Intersection Observer for .reveal and .reveal-left
+    const revealEls = document.querySelectorAll('.reveal, .reveal-left');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+
+    // ── Word-by-word reveal for .word-reveal
+    const wordEls = document.querySelectorAll('.word-reveal');
+    const wordObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const words = entry.target.querySelectorAll('.word');
+          words.forEach((w, i) => {
+            setTimeout(() => w.style.cssText = 'opacity:1;transform:translateY(0)', i * 90);
+          });
+          wordObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    wordEls.forEach(el => wordObserver.observe(el));
+
+    // ── Stagger cat-tags
+    document.querySelectorAll('.cat-tag.reveal').forEach((el, i) => {
+      el.style.transitionDelay = (i * 60) + 'ms';
+    });
+  </script>
+
+</body>
+</html>

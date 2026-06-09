@@ -1,0 +1,153 @@
+/* ═══════════════════════════════════════════
+   Momentum Awards 2026 — The Hitavada
+   Global Stylesheet
+═══════════════════════════════════════════ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --red: #c8102e;
+  --red-dark: #a00d24;
+  --black: #0a0a0a;
+  --ink: #1c1c1c;
+  --muted: #555;
+  --border: #ccc;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #fff;
+  color: var(--ink);
+  font-family: "Source Serif 4", Georgia, serif;
+  overflow-x: hidden;
+}
+
+/* ─── MASTHEAD ─── */
+.masthead {
+  background: #fff;
+  border-bottom: 3px solid var(--black);
+  padding: 0 32px;
+}
+.masthead-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 10.5px;
+  color: var(--muted);
+  letter-spacing: 0.4px;
+}
+.masthead-top .special-initiative {
+  background: var(--red);
+  color: #fff;
+  padding: 2px 9px;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.masthead-center {
+  text-align: center;
+  padding: 18px 0 14px;
+  border-bottom: 1px solid var(--border);
+}
+.masthead-name {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(38px, 6vw, 72px);
+  font-weight: 900;
+  color: var(--black);
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+.masthead-name span {
+  color: var(--red);
+}
+.masthead-tagline {
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 5px;
+}
+.masthead-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.3px;
+}
+.masthead-bottom .edition {
+  font-style: italic;
+}
+.masthead-bottom .back-link {
+  font-style: italic;
+  color: var(--red);
+  text-decoration: none;
+  font-size: 11px;
+}
+.masthead-bottom .back-link:hover {
+  text-decoration: underline;
+}
+
+/* ─── SHARED UTILITIES ─── */
+.kicker {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--red);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.section-divider {
+  display: flex;
+  align-items: center;
+}
+.section-divider .label {
+  background: var(--black);
+  color: #fff;
+  padding: 5px 16px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.section-divider .line {
+  flex: 1;
+  height: 2px;
+  background: var(--black);
+}
+
+/* ─── FOOTER ─── */
+.site-footer {
+  background: var(--black);
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+  padding: 18px 40px;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  border-top: 3px solid var(--red);
+}
+.site-footer strong {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 720px) {
+  .masthead {
+    padding: 0 20px;
+  }
+}
