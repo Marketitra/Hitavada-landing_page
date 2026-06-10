@@ -35,19 +35,31 @@ body {
 .masthead {
   background: #fff;
   border-bottom: 3px solid var(--black);
-  padding: 0 32px;
 }
+
+/* Top strip: logo left, meta right */
 .masthead-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 0;
+  padding: 10px 32px;
   border-bottom: 1px solid var(--border);
+}
+.masthead-top-logo img {
+  height: 36px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+.masthead-top-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   font-size: 10.5px;
   color: var(--muted);
   letter-spacing: 0.4px;
 }
-.masthead-top .special-initiative {
+.masthead-top-right .special-initiative {
   background: var(--red);
   color: #fff;
   padding: 2px 9px;
@@ -56,34 +68,28 @@ body {
   letter-spacing: 1px;
   text-transform: uppercase;
 }
-.masthead-center {
-  text-align: center;
-  padding: 18px 0 14px;
+
+/* Center: TH_1 main heading logo */
+.masthead-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 32px 16px;
   border-bottom: 1px solid var(--border);
 }
-.masthead-name {
-  font-family: "Playfair Display", serif;
-  font-size: clamp(38px, 6vw, 72px);
-  font-weight: 900;
-  color: var(--black);
-  line-height: 1;
-  letter-spacing: -0.5px;
+.masthead-heading img {
+  height: 90px;
+  width: auto;
+  display: block;
+  object-fit: contain;
 }
-.masthead-name span {
-  color: var(--red);
-}
-.masthead-tagline {
-  font-size: 10px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-top: 5px;
-}
+
+/* Bottom strip */
 .masthead-bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 6px 0;
+  padding: 6px 32px;
   font-size: 10px;
   color: var(--muted);
   letter-spacing: 0.3px;
@@ -147,7 +153,16 @@ body {
 
 /* ─── RESPONSIVE ─── */
 @media (max-width: 720px) {
-  .masthead {
-    padding: 0 20px;
+  .masthead-top,
+  .masthead-heading,
+  .masthead-bottom {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .masthead-heading img {
+    height: 60px;
+  }
+  .masthead-top-logo img {
+    height: 28px;
   }
 }
